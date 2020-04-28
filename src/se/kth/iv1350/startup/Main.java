@@ -6,9 +6,9 @@ import se.kth.iv1350.view.View;
 public class Main {
 
     public static void main(String[] args) {
-        Controller contr = new Controller();
-        View view = new View(contr);
         ExternalInventory external = new ExternalInventory();
+        Controller contr = new Controller(external);
+        View view = new View(contr);
         view.rfe();
     }
 }
