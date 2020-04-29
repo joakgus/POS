@@ -33,7 +33,6 @@ public class Controller{
      */
     public void enterItem(int id, int quantity){
         this.item = invent.findItem(id, quantity);
-        System.out.println(item.getId());
         sale.addItem(this.item);
     }
 
@@ -54,6 +53,7 @@ public class Controller{
         if (sale.getTotalPrice() <= amount){
             ExternalAccounting.sendAmount(amount);
             sale.sendReceipt();
+            invent.lowerQuantity(sale);
             return amount - sale.getTotalPrice();
         }
         else {

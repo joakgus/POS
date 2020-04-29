@@ -28,17 +28,22 @@ public class Sale {
      * @param item
      */
     public void addItem(ItemDTO item){
-        boolean sameArticle = false;
-        for (ItemDTO saleItem : sale){
-            if (item.getId() == saleItem.getId()) {
-                saleItem.setQuantity(saleItem.getQuantity()+item.getQuantity());
-                sameArticle = true;
-                break;
+        if (item != null) {
+            boolean sameArticle = false;
+            for (ItemDTO saleItem : sale) {
+                if (item.getId() == saleItem.getId()) {
+                    saleItem.setQuantity(saleItem.getQuantity() + item.getQuantity());
+                    sameArticle = true;
+                    break;
+                }
+            }
+            if (sameArticle == false) {
+                sale.add(item);
+                totalPrice += item.getPrice() * item.getQuantity();
             }
         }
-        if (sameArticle == false) {
-            sale.add(item);
-            totalPrice += item.getPrice() * item.getQuantity();
+        else {
+            System.out.println("Can't find item");
         }
     }
 
@@ -59,5 +64,9 @@ public class Sale {
 
     public int getTotalPrice() {
         return totalPrice;
+    }
+
+    public ArrayList<ItemDTO> getItems() {
+        return sale;
     }
 }

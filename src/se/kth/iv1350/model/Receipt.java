@@ -17,13 +17,16 @@ public class Receipt {
     private String storename;
     private String address;
 
+    private void createNewReceipt(){
+        boughtItems =  new ArrayList<ItemDTO>();
+        storename = "Apple";
+        address = "Sveavagen 8";
+    }
     /**
      * Creates new instance of a receipt.
      */
     public Receipt(){
-       boughtItems =  new ArrayList<ItemDTO>();
-       storename = "Apple";
-       address = "Sveavagen 8";
+        createNewReceipt();
     }
 
     /**

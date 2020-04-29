@@ -21,18 +21,54 @@ class ExternalInventoryTest {
     @Test
     void id() {
         ItemDTO anItem = external.findItem(2345,10);
-        ItemDTO item = new ItemDTO(2345,25,6,10,"hi");
-        int id1 = item.getId();
+        ItemDTO expectedItem = new ItemDTO(2345,25,6,10,"hi");
+        int id1 = expectedItem.getId();
         int id2 = anItem.getId();
         assertEquals(id1,id2,"Wrong item");
     }
-
+    @Test
     void vat() {
         ItemDTO anItem = external.findItem(2345,10);
-        ItemDTO item = new ItemDTO(2345,25,6,10,"hi");
-        int vat1 = item.getVat();
+        ItemDTO expectedItem = new ItemDTO(2345,25,6,10,"hi");
+        int vat1 = expectedItem.getVat();
         int vat2 = anItem.getVat();
         assertEquals(vat1,vat2,"Wrong item");
     }
-
+    @Test
+    void quantity(){
+        ItemDTO anItem = external.findItem(2345,10);
+        ItemDTO expectedItem = new ItemDTO(2345,25,6,10,"hi");
+        int quant1 = expectedItem.getQuantity();
+        int quant2 = anItem.getQuantity();
+        assertEquals(quant1,quant2,"Wrong item");
+    }
+    @Test
+    void desc(){
+        ItemDTO anItem = external.findItem(2345,10);
+        ItemDTO expectedItem = new ItemDTO(2345,25,6,10,"hi");
+        String desc1 = expectedItem.getDesc();
+        String desc2 = anItem.getDesc();
+        assertEquals(desc1,desc2,"Wrong item");
+    }
+    @Test
+    void price(){
+        ItemDTO anItem = external.findItem(2345,10);
+        ItemDTO expectedItem = new ItemDTO(2345,25,6,10,"hi");
+        int desc1 = expectedItem.getPrice();
+        int desc2 = anItem.getPrice();
+        assertEquals(desc1,desc2,"Wrong item");
+    }
+    @Test
+    void notId(){
+        ItemDTO anItem = external.findItem(2345,10);
+        ItemDTO expectedItem = new ItemDTO(2,25,6,10,"hi");
+        int desc1 = expectedItem.getId();
+        int desc2 = anItem.getId();
+        assertNotEquals(desc1,desc2,"Wrong item");
+    }
+    @Test
+    void itemNotFound(){
+        ItemDTO anItem = external.findItem(2,10);
+        assertEquals(anItem,null,"finds value that shouldn't exist");
+    }
 }

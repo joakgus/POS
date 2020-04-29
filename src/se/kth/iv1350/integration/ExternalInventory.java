@@ -37,4 +37,19 @@ public class ExternalInventory {
         }
         return null;
     }
+
+    public void lowerQuantity(Sale sale) {
+       ArrayList<ItemDTO> saleItems = sale.getItems();
+       for(ItemDTO saleItem : saleItems){
+           for (ItemDTO inventoryItem : items){
+               if (saleItem.getId() == inventoryItem.getId()){
+                   int newQuantity = inventoryItem.getQuantity() - saleItem.getQuantity();
+                   inventoryItem.setQuantity(newQuantity);
+                   System.out.println("changed quantity for item " + inventoryItem.getId() + " with "
+                           + saleItem.getQuantity());
+               }
+           }
+       }
+
+    }
 }
