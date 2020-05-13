@@ -36,7 +36,7 @@ public class ExternalInventory {
                 return new ItemDTO(item.getId(),item.getPrice(),item.getVat(),quantity,item.getDesc());
             }
         }
-        throw new ItemNotFoundException("There is such item");
+        throw new ItemNotFoundException("There is no such item");
     }
 
     public void lowerQuantity(Sale sale) {

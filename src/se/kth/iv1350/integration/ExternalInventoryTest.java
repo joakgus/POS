@@ -68,7 +68,11 @@ class ExternalInventoryTest {
     }
     @Test
     void itemNotFound(){
-        ItemDTO anItem = external.findItem(2,10);
-        assertEquals(anItem,null,"finds value that shouldn't exist");
+        try {
+            ItemDTO anItem = external.findItem(2,10);
+        }
+        catch (ItemNotFoundException e){
+            assertEquals(null,e,"catches the null item");
+        }
     }
 }
