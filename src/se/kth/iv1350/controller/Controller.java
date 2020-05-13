@@ -1,15 +1,20 @@
 package se.kth.iv1350.controller;
 
-import se.kth.iv1350.integration.ExternalAccounting;
-import se.kth.iv1350.integration.ExternalInventory;
-import se.kth.iv1350.integration.ItemDTO;
+import se.kth.iv1350.integration.*;
 import se.kth.iv1350.model.Sale;
+import se.kth.iv1350.model.SaleObserver;
+import se.kth.iv1350.view.TotalRevenueView;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller{
     private Sale sale;
     private ItemDTO item;
     private ExternalInventory invent;
-
+    private List<SaleObserver> saleObservers = new ArrayList<>();
+    private LogHandler i;
     /**
      *
      * @param external
@@ -32,7 +37,17 @@ public class Controller{
      * @param quantity
      */
     public void enterItem(int id, int quantity){
-        this.item = invent.findItem(id, quantity);
+        try {
+            this.item = invent.findItem(id, quantity);
+
+        }catch (ItemNotFoundException e){
+            try {
+                this.i = new LogHandler();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            i.logException(e);
+        }
         sale.addItem(this.item);
     }
 
@@ -50,11 +65,13 @@ public class Controller{
      * @return
      */
     public int payment(int amount){
+        sale.addSaleObservers(saleObservers);
         if (sale.getTotalPrice() <= amount){
             ExternalAccounting.sendAmount(amount);
             sale.sendReceipt();
             invent.lowerQuantity(sale);
             return amount - sale.getTotalPrice();
+
         }
         else {
             System.out.println("Pay more " + (sale.getTotalPrice() - amount));
@@ -62,5 +79,9 @@ public class Controller{
         return 0;
 
 
+    }
+
+    public void addSaleObserver(SaleObserver obs) {
+        saleObservers.add(obs);
     }
 }

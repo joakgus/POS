@@ -4,6 +4,7 @@ import se.kth.iv1350.model.Sale;
 
 import java.util.ArrayList;
 import java.util.List;
+import se.kth.iv1350.integration.LogHandler;
 
 /**
  * Holds objects of items and fetches them.
@@ -29,13 +30,13 @@ public class ExternalInventory {
      * @param quantity
      * @return
      */
-    public ItemDTO findItem(int id, int quantity){
+    public ItemDTO findItem(int id, int quantity) throws ItemNotFoundException{
         for (ItemDTO item : items){
             if ((item.getId() == (id)) && (item.getQuantity() >= quantity)) {
                 return new ItemDTO(item.getId(),item.getPrice(),item.getVat(),quantity,item.getDesc());
             }
         }
-        return null;
+        throw new ItemNotFoundException("There is such item");
     }
 
     public void lowerQuantity(Sale sale) {

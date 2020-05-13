@@ -4,6 +4,7 @@ import se.kth.iv1350.integration.ItemDTO;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Holds the current sale.
@@ -13,6 +14,7 @@ public class Sale {
     private Receipt receipt;
     private ArrayList<ItemDTO> sale;
     private int totalPrice;
+    private List<SaleObserver> saleObservers = new ArrayList<>();
 
     /**
      * Creates a new instance of sale.
@@ -54,12 +56,18 @@ public class Sale {
     public int endSale(){
         return totalPrice;
     }
+    private void notifyObservers(){
+        for (SaleObserver obs : saleObservers){
+            obs.newSale(totalPrice);
+        }
+    }
 
     /**
      * Sends a receipt to print.
      */
     public void sendReceipt(){
         receipt.receipt(startTime,sale, totalPrice);
+        notifyObservers();
     }
 
     public int getTotalPrice() {
@@ -68,5 +76,13 @@ public class Sale {
 
     public ArrayList<ItemDTO> getItems() {
         return sale;
+    }
+
+    public void addSaleObserver(SaleObserver obs) {
+        saleObservers.add(obs);
+    }
+
+    public void addSaleObservers(List<SaleObserver> observers) {
+        saleObservers.addAll(observers);
     }
 }
