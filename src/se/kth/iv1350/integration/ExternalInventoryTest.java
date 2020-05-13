@@ -72,7 +72,7 @@ class ExternalInventoryTest {
             ItemDTO anItem = external.findItem(2,10);
         }
         catch (ItemNotFoundException e){
-            assertEquals(null,e,"catches the null item");
+            assertEquals(null,e.getMessage(),"catches the null item");
         }
     }
 }

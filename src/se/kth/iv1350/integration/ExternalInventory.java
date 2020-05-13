@@ -25,10 +25,11 @@ public class ExternalInventory {
     }
 
     /**
-     * Finds the requested item.
+     * Finds the requested item. If not found then it throws a ItemNotFoundException
      * @param id
      * @param quantity
-     * @return
+     * @return item
+     * @throws ItemNotFoundException
      */
     public ItemDTO findItem(int id, int quantity) throws ItemNotFoundException{
         for (ItemDTO item : items){
@@ -39,6 +40,10 @@ public class ExternalInventory {
         throw new ItemNotFoundException("There is no such item");
     }
 
+    /**
+     * Lowers the quantity in the database by taking a parameter of object sale.
+     * @param sale
+     */
     public void lowerQuantity(Sale sale) {
        ArrayList<ItemDTO> saleItems = sale.getItems();
        for(ItemDTO saleItem : saleItems){
