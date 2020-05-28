@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.kth.iv1350.controller.Controller;
 import se.kth.iv1350.integration.ExternalInventory;
+import se.kth.iv1350.integration.FailToConnectToDatabaseException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -20,7 +21,8 @@ class ViewTest {
     void setUp() {
         ExternalInventory external = new ExternalInventory();
         Controller contr = new Controller(external);
-        instanceOfTest = new View(contr);
+            instanceOfTest = new View(contr);
+
 
         printoutBuffer = new ByteArrayOutputStream();
         PrintStream inMemSysOut = new PrintStream(printoutBuffer);
@@ -38,7 +40,11 @@ class ViewTest {
 
     @Test
     void fullrun() {
-        instanceOfTest.rfe();
+        try {
+            instanceOfTest.rfe();
+        } catch (FailToConnectToDatabaseException e) {
+            e.printStackTrace();
+        }
         String printout = printoutBuffer.toString();
         String expectedOutput = "change";
         assertTrue(printout.contains(expectedOutput), "UI Didn't run correctly");
@@ -46,6 +52,10 @@ class ViewTest {
 
     @Test
     void change(){
-        instanceOfTest.rfe();
+        try {
+            instanceOfTest.rfe();
+        } catch (FailToConnectToDatabaseException e) {
+            e.printStackTrace();
+        }
     }
 }
